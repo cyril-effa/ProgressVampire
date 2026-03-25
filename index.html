@@ -1,2 +1,22 @@
-<h1>Gold:<spanid="gold">0</span></h1>
-<buttononclick="buyUpgrade()">Upgrade</button>
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+  <meta charset="UTF-8">
+  <title>Progress Vampire</title>
+  <link rel="stylesheet" href="style.css">
+</head>
+<body>
+  <h1>Progress Vampire</h1>
+
+  <div class="blood-container">
+    <div class="blood-bar" id="bloodBar"></div>
+  </div>
+
+  <p>
+    Blood : <span id="bloodValue">100</span> / <span id="bloodMax">100</span><br>
+    Perte : <span id="bloodLoss">0.5</span> par seconde
+  </p>
+
+  <script src="script.js"></script>
+</body>
+</html>

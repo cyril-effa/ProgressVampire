@@ -1,45 +1,29 @@
-let gold = 0;
-let goldPerSecond = 1;
+let bloodMax = 100; // Quantité maximale de sang
+let blood = 100; // Quantité de sang actuelle
+let bloodLossPerSecond = 0.5; // Quantité de sang perdue par seconde
+let tick = 10; // Nombre de ticks par seconde pour la boucle de jeu
 
-function gameLoop()
-{
-    gold += goldPerSecond / 10;// tick toutes les 100ms
-    updateUI();
+const bloodBar = document.getElementById("bloodBar");
+const bloodValue = document.getElementById("bloodValue");
+const bloodMaxEl = document.getElementById("bloodMax");
+const bloodLossEl = document.getElementById("bloodLoss");
+
+bloodMaxEl.textContent = bloodMax;
+bloodLossEl.textContent = bloodLossPerSecond;
+
+// Mise à jour de l'affichage
+function updateBloodUI() {
+  bloodValue.textContent = Math.max(0, blood).toFixed(1);
+
+  const percent = (blood / bloodMax) * 100;
+  bloodBar.style.width = Math.max(0, percent) + "%";
 }
 
-setInterval(gameLoop, 100);
+// Perte automatique de blood
+setInterval(() => {
+  blood -= bloodLossPerSecond / tick;
+  if (blood < 0) blood = 0;
+  updateBloodUI();
+}, 1000 / tick);
 
-function saveGame()
-{
-    localStorage.setItem("save", JSON.stringify({
-        gold:gold,
-        goldPerSecond:goldPerSecond
-    }));
-}
-
-function loadGame()
-{
-    let save=JSON.parse(localStorage.getItem("save"));
-    if (save) {
-        gold = save.gold;
-        goldPerSecond = save.goldPerSecond;
-    }
-}
-
-setInterval(saveGame, 5000);
-
-let upgradeCost=10;
-
-function buyUpgrade()
-{
-    if (gold >= upgradeCost) {
-        gold -= upgradeCost;
-        goldPerSecond += 1;
-        upgradeCost *= 1.5;
-    }
-}
-
-function updateUI()
-{
-    document.getElementById("gold").innerText = Math.floor(gold);
-}
+updateBloodUI();
